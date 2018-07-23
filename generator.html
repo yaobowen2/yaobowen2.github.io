@@ -115,16 +115,24 @@ class UTMGenerator {
         result.push(name + '=' + value)
       }
     })
+
+    let hash = '', hashIndex
+    if ((hashIndex = url.indexOf('#')) > -1) {
+      hash = url.substring(hashIndex)
+      url = url.substring(0, hashIndex)
+    }
+    result = result.join('&') + hash
+
     if (url.indexOf('/') > -1) {
       if (url.indexOf('?') > -1) {
         if (url.charAt(url.length - 1) === '?') {
-          return url + result.join('&')
+          return url + result
         }
-        return url + '&' + result.join('&')
+        return url + '&' + result
       }
-      return url + '?' + result.join('&')
+      return url + '?' + result
     }
-    return url + '/?' + result.join('&')
+    return url + '/?' + result
   }
 
   checkValidity() {
