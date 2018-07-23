@@ -1,0 +1,152 @@
+<html>
+  <head>
+    <style>
+      .utm-container input,
+      .utm-container select{
+        display: block;
+        margin: 6px 0;
+      }
+      label.utm-required::before{
+        content: "*";
+        color: red;
+      }
+      .utm-invalid{
+        border-color: red
+      }
+    </style>
+  </head>
+  <body>
+    <script>
+      
+class UTMGenerator {
+  constructor({ domContainer } = {}) {
+    this.domContainer = domContainer || document.body
+    this.getOptions().then(() => this.build())
+  }
+
+  getOptions() {
+    this.options = {
+      url: {
+        required: true
+      },
+      utm_source: {
+        label: 'source',
+        value: [
+          'site',
+          'facebook',
+          'google',
+          'baidu',
+          'adwerx',
+          'facebook_ads',
+          'google_ads',
+          'baidu_ads',
+          'adwerx_ads',
+          'bing',
+          'bing_ads',
+          'yahoo',
+          'yahoo_ads',
+          'zillow',
+          'trulia'
+        ],
+        required: true
+      },
+      utm_medium: {
+        label: 'medium',
+        value: [
+          'web',
+          'email',
+          'direct'
+        ],
+        required: true
+      },
+      utm_campaign: {
+        label: 'campaign',
+        value: [
+          '180714'
+        ],
+        required: true,
+        checkValidity: value => value.length < 100 && value.length > 1
+      },
+      utm_content: {
+        label: 'content',
+        required: true,
+      }
+    }
+    return Promise.resolve()
+  }
+
+  build() {
+    const dom = this.dom = document.createElement('div')
+    dom.className = 'utm-container'
+    const options = this.options
+    let html = Object.keys(options).map(name => {
+      const conf = options[name]
+      let html= `<label class="utm-label${conf.required ? ' utm-required' : ''}">${conf.label || name}</label>`
+      if (Array.isArray(conf.value)) {
+        html += `<select name=${name} class="utm-select${conf.required ? ' utm-required' : ''}">`
+        html += conf.value.map(v => `<option class="utm-option">${v}</option>`).join('')
+        html += '</select>'
+      } else {
+        html += `<input oninput="this.classList.remove('utm-invalid')" class="utm-input${conf.required ? ' utm-required' : ''}" type="text" name="${name}"></input>`
+      }
+      return html
+    }).join('')
+    dom.innerHTML = html
+    
+    const btn = dom.appendChild(document.createElement('button'))
+    btn.className = 'utm-generate'
+    btn.textContent = 'generate'
+    btn.onclick = e => {
+      if (this.checkValidity()) {
+        console.log(this.generate())
+      }
+    }
+
+    this.domContainer.appendChild(dom)
+  }
+
+  generate() {
+    let url, result = []
+    Array.from(this.dom.querySelectorAll('input,select')).forEach(input => {
+      const { value, name } = input
+      if (name === 'url') {
+        url = value
+      } else if (value) {
+        result.push(name + '=' + value)
+      }
+    })
+    if (url.indexOf('/') > -1) {
+      if (url.indexOf('?') > -1) {
+        if (url.charAt(url.length - 1) === '?') {
+          return url + result.join('&')
+        }
+        return url + '&' + result.join('&')
+      }
+      return url + '?' + result.join('&')
+    }
+    return url + '/?' + result.join('&')
+  }
+
+  checkValidity() {
+    return Array.from(this.dom.querySelectorAll('input')).every(dom => {
+      const checkValidity = this.options[dom.name].checkValidity
+      if (checkValidity && checkValidity(dom.value) === false) {
+        dom.classList.add('utm-invalid')
+        console.log(`${dom.name} schema is not valid`)
+        return false
+      }
+      const required = dom.classList.contains('utm-required')
+      if (required && !dom.value) {
+        dom.classList.add('utm-invalid')
+        console.log(`${dom.name} schema is required`)
+        return false
+      }
+      return true
+    })
+  }
+}
+
+new UTMGenerator()
+    </script>
+  </body>
+</html>
