@@ -13,6 +13,13 @@
       .utm-invalid{
         border-color: red
       }
+      .utm-container input{
+        width: 400px;
+      }
+      .utm-container .result{
+        display: block;
+        width: 600px;
+      }
     </style>
   </head>
   <body>
@@ -33,20 +40,20 @@ class UTMGenerator {
         label: 'source',
         value: [
           'site',
-          'facebook',
-          'google',
-          'baidu',
-          'adwerx',
+          // 'facebook',
+          // 'google',
+          // 'baidu',
+          // 'adwerx',
           'facebook_ads',
           'google_ads',
-          'baidu_ads',
-          'adwerx_ads',
-          'bing',
-          'bing_ads',
-          'yahoo',
-          'yahoo_ads',
-          'zillow',
-          'trulia'
+          // 'baidu_ads',
+          // 'adwerx_ads',
+          // 'bing',
+          // 'bing_ads',
+          // 'yahoo',
+          // 'yahoo_ads',
+          // 'zillow',
+          // 'trulia'
         ],
         required: true
       },
@@ -55,7 +62,7 @@ class UTMGenerator {
         value: [
           'web',
           'email',
-          'direct'
+          'directmail'
         ],
         required: true
       },
@@ -70,6 +77,9 @@ class UTMGenerator {
       utm_content: {
         label: 'content',
         required: true,
+      },
+      utm_owner: {
+        label: 'owner'
       }
     }
     return Promise.resolve()
@@ -98,9 +108,13 @@ class UTMGenerator {
     btn.textContent = 'generate'
     btn.onclick = e => {
       if (this.checkValidity()) {
-        console.log(this.generate())
+        domResult.value = this.generate()
       }
     }
+
+    const domResult = dom.appendChild(document.createElement('textarea'))
+    domResult.setAttribute('readonly', 'readonly')
+    domResult.className = 'result'
 
     this.domContainer.appendChild(dom)
   }
@@ -112,7 +126,7 @@ class UTMGenerator {
       if (name === 'url') {
         url = value
       } else if (value) {
-        result.push(name + '=' + value)
+        result.push(encodeURIComponent(name) + '=' + encodeURIComponent(value))
       }
     })
 
@@ -136,17 +150,17 @@ class UTMGenerator {
   }
 
   checkValidity() {
-    return Array.from(this.dom.querySelectorAll('input')).every(dom => {
+    return Array.from(this.dom.querySelectorAll('.utm-input')).every(dom => {
       const checkValidity = this.options[dom.name].checkValidity
       if (checkValidity && checkValidity(dom.value) === false) {
         dom.classList.add('utm-invalid')
-        console.log(`${dom.name} schema is not valid`)
+        alert(`${dom.name} schema is not valid`)
         return false
       }
       const required = dom.classList.contains('utm-required')
       if (required && !dom.value) {
         dom.classList.add('utm-invalid')
-        console.log(`${dom.name} schema is required`)
+        alert(`${dom.name} schema is required`)
         return false
       }
       return true
