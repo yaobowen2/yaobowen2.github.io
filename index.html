@@ -6,7 +6,19 @@
 <body>
 <div id="a"></div>
 <script>
-channelReady(function(res){ document.getElementById('a').textContent=res;console.log(res) })
+var params = location.search.length ? location.search.substring('1').split('&') : null
+if (params) {
+  params.forEach(p => {
+    p = p.split('=')
+    if (p[0] === 'url') {
+      appRouter('com.xiaoai.news-feed', '/', { openUrl: decodeURIComponent(p[1]) })
+    }
+  })
+}
+// var path = '/?openUrl=' + encodeURIComponent('http://www.baidu.com')
+// var path = '/'
+// var params = { openUrl: 'http://www.baidu.com' }
+// appRouter('com.xiaoai.news-feed', path, params)
 </script>
 </body>
 </html>
