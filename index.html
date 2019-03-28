@@ -11,7 +11,7 @@ if (params) {
   params.forEach(p => {
     p = p.split('=')
     if (p[0] === 'url') {
-      appRouter('com.xiaoai.news-feed', '/', { openUrl: decodeURIComponent(p[1]) })
+      appRouter('com.xiaoai.news-feed', '/', { detailUrl: decodeURIComponent(p[1]) })
     }
   })
 }
