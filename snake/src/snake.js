@@ -1,4 +1,4 @@
-const DISTANCE_STEP = 6;// 每帧走的像素值
+const DISTANCE_STEP = 10;// 每帧走的像素值
 const INIT_LENGTH = 4;// 初始长度对于宽度的倍数
 const WIDTH_SNAKE = 40;// 蛇粗的像素值
 const WIDTH_SEED = WIDTH_SNAKE / 2;//种子直径
