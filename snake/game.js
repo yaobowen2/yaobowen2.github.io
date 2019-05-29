@@ -36,32 +36,17 @@
 /******/ 	// define getter function for harmony exports
 /******/ 	__webpack_require__.d = function(exports, name, getter) {
 /******/ 		if(!__webpack_require__.o(exports, name)) {
-/******/ 			Object.defineProperty(exports, name, { enumerable: true, get: getter });
+/******/ 			Object.defineProperty(exports, name, {
+/******/ 				configurable: false,
+/******/ 				enumerable: true,
+/******/ 				get: getter
+/******/ 			});
 /******/ 		}
 /******/ 	};
 /******/
 /******/ 	// define __esModule on exports
 /******/ 	__webpack_require__.r = function(exports) {
-/******/ 		if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
-/******/ 			Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
-/******/ 		}
 /******/ 		Object.defineProperty(exports, '__esModule', { value: true });
-/******/ 	};
-/******/
-/******/ 	// create a fake namespace object
-/******/ 	// mode & 1: value is a module id, require it
-/******/ 	// mode & 2: merge all properties of value into the ns
-/******/ 	// mode & 4: return value when already ns object
-/******/ 	// mode & 8|1: behave like require
-/******/ 	__webpack_require__.t = function(value, mode) {
-/******/ 		if(mode & 1) value = __webpack_require__(value);
-/******/ 		if(mode & 8) return value;
-/******/ 		if((mode & 4) && typeof value === 'object' && value && value.__esModule) return value;
-/******/ 		var ns = Object.create(null);
-/******/ 		__webpack_require__.r(ns);
-/******/ 		Object.defineProperty(ns, 'default', { enumerable: true, value: value });
-/******/ 		if(mode & 2 && typeof value != 'string') for(var key in value) __webpack_require__.d(ns, key, function(key) { return value[key]; }.bind(null, key));
-/******/ 		return ns;
 /******/ 	};
 /******/
 /******/ 	// getDefaultExport function for compatibility with non-harmony modules
@@ -138,7 +123,7 @@ eval("\n/**\n * When source maps are enabled, `style-loader` uses a link element
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _style_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./style.css */ \"./src/style.css\");\n/* harmony import */ var _style_css__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_style_css__WEBPACK_IMPORTED_MODULE_0__);\n/* harmony import */ var _snake_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./snake.js */ \"./src/snake.js\");\n\n\n\nclass Panel {\n    constructor() {\n        this.dom = document.body.appendChild(document.createElement('div'));\n        this.dom.className = 'panel panel-hidden';\n    }\n\n    showStart() {\n        this.dom.innerHTML = '<h3>准备</h3><br><p>空格开始！</p>';\n        this.dom.classList.remove('panel-hidden');\n    }\n\n    showEnd() {\n        this.dom.innerHTML = `<h3>${score.getScore()}分!</h3><br><p>空格再来一局！</p>`;\n        this.dom.classList.remove('panel-hidden');\n    }\n\n    hide() {\n        this.dom.classList.add('panel-hidden');\n    }\n}\n\nclass Score {\n    constructor() {\n        this.count = 0;\n        this.dom = document.body.appendChild(document.createElement('h1'));\n        this.dom.className = 'score';\n    }\n\n    add() {\n        this.count++;\n        this.dom.textContent = '分数：' + this.count;\n    }\n\n    reset() {\n        this.count = 0;\n        this.dom.textContent = '分数：' + this.count;\n    }\n\n    getScore() {\n        return this.count;\n    }\n}\n\nconst score = new Score();\nconst panel = new Panel();\n\nvar snake = new _snake_js__WEBPACK_IMPORTED_MODULE_1__[\"Snake\"]({\n    onfail: () => panel.showEnd(),\n    oneat: () => score.add(),\n    seed: new _snake_js__WEBPACK_IMPORTED_MODULE_1__[\"Seed\"](),\n});\n\ndocument.onkeydown = e => {\n    if (e.keyCode === 32) {\n        if (!snake.isRunning()) {\n            snake.run();\n            panel.hide();\n            score.reset();\n        }\n    }\n}\n\npanel.showStart();\n\n//# sourceURL=webpack:///./src/game.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _style_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./style.css */ \"./src/style.css\");\n/* harmony import */ var _style_css__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_style_css__WEBPACK_IMPORTED_MODULE_0__);\n/* harmony import */ var _snake_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./snake.js */ \"./src/snake.js\");\n\r\n\r\n\r\nclass Panel {\r\n    constructor() {\r\n        this.dom = document.body.appendChild(document.createElement('div'));\r\n        this.dom.className = 'panel panel-hidden';\r\n    }\r\n\r\n    showStart() {\r\n        this.dom.innerHTML = '<h3>准备</h3><br><p>空格开始！</p>';\r\n        this.dom.classList.remove('panel-hidden');\r\n    }\r\n\r\n    showEnd() {\r\n        this.dom.innerHTML = `<h3>${score.getScore()}分!</h3><br><p>空格再来一局！</p>`;\r\n        this.dom.classList.remove('panel-hidden');\r\n    }\r\n\r\n    hide() {\r\n        this.dom.classList.add('panel-hidden');\r\n    }\r\n}\r\n\r\nclass Score {\r\n    constructor() {\r\n        this.count = 0;\r\n        this.dom = document.body.appendChild(document.createElement('h1'));\r\n        this.dom.className = 'score';\r\n    }\r\n\r\n    add() {\r\n        this.count++;\r\n        this.dom.textContent = '分数：' + this.count;\r\n    }\r\n\r\n    reset() {\r\n        this.count = 0;\r\n        this.dom.textContent = '分数：' + this.count;\r\n    }\r\n\r\n    getScore() {\r\n        return this.count;\r\n    }\r\n}\r\n\r\nconst score = new Score();\r\nconst panel = new Panel();\r\n\r\nvar snake = new _snake_js__WEBPACK_IMPORTED_MODULE_1__[\"Snake\"]({\r\n    onfail: () => panel.showEnd(),\r\n    oneat: () => score.add(),\r\n    seed: new _snake_js__WEBPACK_IMPORTED_MODULE_1__[\"Seed\"](),\r\n});\r\n\r\ndocument.onkeydown = e => {\r\n    if (e.keyCode === 32) {\r\n        if (!snake.isRunning()) {\r\n            snake.run();\r\n            panel.hide();\r\n            score.reset();\r\n        }\r\n    }\r\n}\r\n\r\npanel.showStart();\n\n//# sourceURL=webpack:///./src/game.js?");
 
 /***/ }),
 
